@@ -27,12 +27,12 @@ public class BikeService {
 
     private List<Bike> foundBikes = new ArrayList<>();
 
-    private String unsuccessfulSearchResult = "";
+    private volatile String unsuccessfulSearchResult = "";
 
     private List<Bike> bikesFromFile = new CopyOnWriteArrayList<>();
 
     public BikeService() {
-        findTxtFiles().forEach(this::readFile);
+        findAllTxtFilesInResourcesDir().forEach(this::readTxtFileToList);
         programFlowGuide();
     }
 
@@ -45,17 +45,18 @@ public class BikeService {
         int intUserInput = getIntUserInput(1, 2, 3, 4, 5, 6, 7);
 
         if (intUserInput == 1) {
-            showCatalog();
+            showAllCatalog();
         } else if (intUserInput == 2) {
-            addNewFoldingBike();
+            addNewFoldingBikeToCatalog();
         } else if (intUserInput == 3) {
-            addNewSpeedelecBike();
+            addNewSpeedelecBikeToCatalog();
         } else if (intUserInput == 4) {
-            addNewEBike();
+            addNewEBikeToCatalog();
         } else if (intUserInput == 5) {
-            findFirstBikeByBrand();
+            findFirstBikeByBrandMenuResolver();
         } else if (intUserInput == 6) {
-            wrightToFile();
+            deleteAllFilesInResourcesDir();
+            wrightCatalogToTxtFileWithCustomName();
         } else {
             System.out.println("Stopping the program!");
             stopProgram = true;
@@ -63,7 +64,7 @@ public class BikeService {
         if (!stopProgram) programFlowGuide();
     }
 
-    private List<File> findTxtFiles() {
+    private List<File> findAllTxtFilesInResourcesDir() {
 
         List<File> resourceTxtFiles = new ArrayList<>();
 
@@ -78,7 +79,7 @@ public class BikeService {
         return resourceTxtFiles;
     }
 
-    private void readFile(File txtFile) {
+    private void readTxtFileToList(File txtFile) {
 
         try (BufferedReader br = new BufferedReader(new FileReader(txtFile))) {
 
@@ -127,14 +128,14 @@ public class BikeService {
         }
     }
 
-    private void showCatalog() {
+    private void showAllCatalog() {
 
         System.out.println("Here all bikes in catalog:\n");
 
         bikesFromFile.forEach(System.out::println);
     }
 
-    private void addNewFoldingBike() {
+    private void addNewFoldingBikeToCatalog() {
 
         FoldingBike newFoldingBike = new FoldingBike(
                 getBrandUserInput(),
@@ -148,7 +149,7 @@ public class BikeService {
         saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newFoldingBike);
     }
 
-    private void addNewSpeedelecBike() {
+    private void addNewSpeedelecBikeToCatalog() {
 
         SpeedelecBike newSpeedelecBike = new SpeedelecBike(
                 getBrandUserInput(),
@@ -162,7 +163,7 @@ public class BikeService {
         saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newSpeedelecBike);
     }
 
-    private void addNewEBike() {
+    private void addNewEBikeToCatalog() {
 
         EBike newEBike = new EBike(
                 getBrandUserInput(),
@@ -183,14 +184,14 @@ public class BikeService {
         if (isContains) {
             System.out.println("The new bike, shown below, not added, because it is already present in the catalog!");
         } else {
-            System.out.println("The new bike will be added to the catalog as soon as it will be possible!");
             new Thread(() -> bikesFromFile.add(newBike)).start();
+            System.out.println("The new bike will be added to the catalog as soon as it will be possible!");
         }
     }
 
-    private void findFirstBikeByBrand() {
+    private void findFirstBikeByBrandMenuResolver() {
 
-        System.out.println(FIND_BIKE_MESSAGE);
+        System.out.println(FIND_FIRST_BIKE_BY_BRAND_MESSAGE);
 
         int intUserInput1 = getIntUserInput(1, 2);
 
@@ -237,12 +238,7 @@ public class BikeService {
         }
     }
 
-    private void wrightToFile() {
-
-        boolean success = true;
-
-        String newFileName = getFileNameUserInput();
-
+    private void deleteAllFilesInResourcesDir() {
         try {
             Files.walk(Paths.get(RESOURCES_DIR_PATH))
                     .map(Path::toFile)
@@ -250,6 +246,13 @@ public class BikeService {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void wrightCatalogToTxtFileWithCustomName() {
+
+        boolean success = true;
+
+        String newFileName = getFileNameUserInput();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format(FILE_PATH, newFileName)))) {
             for (Bike bike : bikesFromFile) {

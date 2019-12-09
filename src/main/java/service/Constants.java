@@ -2,9 +2,9 @@ package service;
 
 public interface Constants {
 
-    String FILE_PATH = "src/main/resources/%s.txt";
+    String FILE_PATH = "src/main/resources/base/%s.txt";
 
-    String RESOURCES_DIR_PATH = "src/main/resources";
+    String RESOURCES_DIR_PATH = "src/main/resources/base/";
 
     int FOLDING_BRSND_START_INDEX = "FOLDING BIKE ".length();
 
@@ -32,7 +32,7 @@ public interface Constants {
             "2 – SPEEDELEC BIKE\n" +
             "3 – E-BIKE";
 
-    String FIND_BIKE_MESSAGE =
+    String FIND_FIRST_BIKE_BY_BRAND_MESSAGE =
             "========================================================================\n" +
             "Please, make your choice:\n" +
             "1 – Show earlier found bike(s)\n" +
