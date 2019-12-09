@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import static service.SpecialUserInputService.*;
 import static service.Constants.*;
 import static service.UserInputService.getIntUserInput;
-import static service.UserInputService.getStringUserInput;
 
 @Getter
 @Setter
@@ -53,7 +53,7 @@ public class BikeService {
         } else if (intUserInput == 4) {
             addNewEBike();
         } else if (intUserInput == 5) {
-            getUserFindBikeChoice();
+            findFirstBikeByBrand();
         } else if (intUserInput == 6) {
             wrightToFile();
         } else {
@@ -128,173 +128,94 @@ public class BikeService {
     }
 
     private void showCatalog() {
+
         System.out.println("Here all bikes in catalog:\n");
+
         bikesFromFile.forEach(System.out::println);
     }
 
-    private synchronized void addNewFoldingBike() {
-
-        System.out.println("Please enter the bike brand:");
-        String brand = getStringUserInput(false);
-
-        System.out.println("Please enter the size of the wheels (in inch):");
-        int wheelSize = getIntUserInput();
-
-        System.out.println("Please enter the number of gears:");
-        int gearNumber = getIntUserInput();
-
-        System.out.println("Please enter the weight of the bike (in grams):");
-        int weight = getIntUserInput();
-
-        System.out.println("Please enter the availability of lights at front and back:\n" +
-                "enter 1 if lights will be available\n" +
-                "enter 2 if not");
-        int intUserInput = getIntUserInput(1, 2);
-        boolean isLights = intUserInput == 1;
-
-        System.out.println("Please enter the color:");
-        String color = getStringUserInput(false);
-
-        System.out.println("Please enter the price (in euros):");
-        int price = getIntUserInput();
+    private void addNewFoldingBike() {
 
         FoldingBike newFoldingBike = new FoldingBike(
-                brand, weight, isLights, color, price, wheelSize, gearNumber);
+                getBrandUserInput(),
+                getWeightUserInput(),
+                getLightsAvaliabilityUserInput(),
+                getColorUserInput(),
+                getPriceUserInput(),
+                getWheelSizeUserInput(),
+                getGearNumberUserInput());
 
-        boolean isContains = bikesFromFile.contains(newFoldingBike);
-
-        if (isContains) {
-            System.out.println("New FOLDING BIKE has not been added, because it is already present in the catalog!");
-        } else {
-            bikesFromFile.add(newFoldingBike);
-            System.out.println("New FOLDING BIKE, shown below, has been successfully added!");
-            System.out.println(newFoldingBike);
-        }
+        saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newFoldingBike);
     }
 
-    private synchronized void addNewSpeedelecBike() {
-
-        System.out.println("Please enter the bike brand:");
-        String brand = getStringUserInput(false);
-
-        System.out.println("Please enter the maximum speed (in km/h):");
-        int maxSpeed = getIntUserInput();
-
-        System.out.println("Please enter the weight of the bike (in grams):");
-        int weight = getIntUserInput();
-
-        System.out.println("Please enter the availability of lights at front and back:\n" +
-                "enter 1 if lights will be available\n" +
-                "enter 2 if not");
-        int intUserInput = getIntUserInput(1, 2);
-        boolean isLights = intUserInput == 1;
-
-        System.out.println("Please enter the battery capacity (in mAh):");
-        int batteryCapacity = getIntUserInput();
-
-        System.out.println("Please enter the color:");
-        String color = getStringUserInput(false);
-
-        System.out.println("Please enter the price (in euros):");
-        int price = getIntUserInput();
+    private void addNewSpeedelecBike() {
 
         SpeedelecBike newSpeedelecBike = new SpeedelecBike(
-                brand, weight, isLights, color, price, maxSpeed, batteryCapacity);
+                getBrandUserInput(),
+                getWeightUserInput(),
+                getLightsAvaliabilityUserInput(),
+                getColorUserInput(),
+                getPriceUserInput(),
+                getMaxSpeedUserInput(),
+                getBatteryCapacityUserInput());
 
-        boolean isContains = bikesFromFile.contains(newSpeedelecBike);
-
-        if (isContains) {
-            System.out.println("New FOLDING BIKE has not been added, because it is already present in the catalog!");
-        } else {
-            bikesFromFile.add(newSpeedelecBike);
-            System.out.println("New FOLDING BIKE, shown below, has been successfully added!");
-            System.out.println(newSpeedelecBike);
-        }
+        saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newSpeedelecBike);
     }
 
-    private synchronized void addNewEBike() {
-
-        System.out.println("Please enter the bike brand:");
-        String brand = getStringUserInput(false);
-
-        System.out.println("Please enter the maximum speed (in km/h):");
-        int maxSpeed = getIntUserInput();
-
-        System.out.println("Please enter the weight of the bike (in grams):");
-        int weight = getIntUserInput();
-
-        System.out.println("Please enter the availability of lights at front and back:\n" +
-                "enter 1 if lights will be available\n" +
-                "enter 2 if not");
-        int intUserInput = getIntUserInput(1, 2);
-        boolean isLights = intUserInput == 1;
-
-        System.out.println("Please enter the battery capacity (in mAh):");
-        int batteryCapacity = getIntUserInput();
-
-        System.out.println("Please enter the color:");
-        String color = getStringUserInput(false);
-
-        System.out.println("Please enter the price (in euros):");
-        int price = getIntUserInput();
+    private void addNewEBike() {
 
         EBike newEBike = new EBike(
-                brand, weight, isLights, color, price, maxSpeed, batteryCapacity);
+                getBrandUserInput(),
+                getWeightUserInput(),
+                getLightsAvaliabilityUserInput(),
+                getColorUserInput(),
+                getPriceUserInput(),
+                getMaxSpeedUserInput(),
+                getBatteryCapacityUserInput());
 
-        boolean isContains = bikesFromFile.contains(newEBike);
+        saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newEBike);
+    }
+
+    private void saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(Bike newBike) {
+
+        boolean isContains = bikesFromFile.contains(newBike);
 
         if (isContains) {
-            System.out.println("New E-BIKE has not been added, because it is already present in the catalog!");
+            System.out.println("The new bike, shown below, has not been added, because it is already present in the catalog!");
         } else {
-            bikesFromFile.add(newEBike);
-            System.out.println("New E-BIKE, shown below, has been successfully added!");
-            System.out.println(newEBike);
+            System.out.println("The new bike will be added to the catalog as soon as it will be possible!");
+            new Thread(() -> bikesFromFile.add(newBike)).start();
         }
     }
 
-    private String getUserInputBikeBrand() {
-        System.out.println("Please, enter bike brand:");
-        return getStringUserInput(false);
-    }
-
-    private Class<? extends Bike> getUserChosenBikeType() {
-
-        System.out.println(CHOOSE_BIKE_TYPE_MESSAGE);
-
-        int intUserInput = getIntUserInput(1, 2, 3);
-
-        Class<? extends Bike> chosenBikeClass;
-
-        if (intUserInput == 1) {
-            chosenBikeClass = FoldingBike.class;
-        } else if (intUserInput == 2) {
-            chosenBikeClass = SpeedelecBike.class;
-        } else {
-            chosenBikeClass = EBike.class;
-        }
-        return chosenBikeClass;
-    }
-
-    private void getUserFindBikeChoice() {
+    private void findFirstBikeByBrand() {
 
         System.out.println(FIND_BIKE_MESSAGE);
 
         int intUserInput1 = getIntUserInput(1, 2);
 
         if (intUserInput1 == 1) {
-            if (foundBikes.isEmpty()) {
-                System.out.println("There is no earlier found bike(s)!");
-            } else {
-                System.out.println("Earlier found bike(s):\n");
-                foundBikes.forEach(System.out::println);
-            }
-            if (!unsuccessfulSearchResult.isEmpty()) System.out.println(unsuccessfulSearchResult);
+            printInfoAboutFoundBikes();
         } else {
-            Class<? extends Bike> userChosenBikeType = getUserChosenBikeType();
-            String userInputBikeBrand = getUserInputBikeBrand();
-            new Thread(() -> findFirstBikeByBrand(userInputBikeBrand, userChosenBikeType, this)).start();
+            Class<? extends Bike> bikeTypeUserInput = getBikeTypeUserInput();
+            String brandUserInput = getBrandUserInput();
+            new Thread(() -> findFirstBikeByBrand(
+                    brandUserInput,
+                    bikeTypeUserInput,
+                    this))
+                    .start();
             System.out.println("Searching is started! You will be able to see result later in item 5 of root menu.");
         }
+    }
+
+    private void printInfoAboutFoundBikes() {
+        if (foundBikes.isEmpty()) {
+            System.out.println("There is no earlier found bike(s)!");
+        } else {
+            System.out.println("Earlier found bike(s):\n");
+            foundBikes.forEach(System.out::println);
+        }
+        if (!unsuccessfulSearchResult.isEmpty()) System.out.println(unsuccessfulSearchResult);
     }
 
     private void findFirstBikeByBrand(String brand,
@@ -318,11 +239,7 @@ public class BikeService {
 
     private void wrightToFile() {
 
-        System.out.println("Please, enter the file name, in which all data will be written\n" +
-                "(don't use this characters: " +
-                "'/', '\\n', '\\r', '\\t', '\\0', '\\f', '`', '?', '*', '\\\\', '<', '>', '|', '\\\"', ':')");
-
-        String newFileName = getStringUserInput(true);
+        String newFileName = getFileNameUserInput();
 
         try {
             Files.walk(Paths.get(RESOURCES_DIR_PATH))

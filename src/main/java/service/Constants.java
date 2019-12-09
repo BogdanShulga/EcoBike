@@ -4,7 +4,7 @@ public interface Constants {
 
     String FILE_PATH = "src/main/resources/%s.txt";
 
-    String RESOURCES_DIR_PATH = "src/main/resources/";
+    String RESOURCES_DIR_PATH = "src/main/resources";
 
     int FOLDING_BRSND_START_INDEX = "FOLDING BIKE ".length();
 

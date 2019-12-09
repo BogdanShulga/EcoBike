@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import static service.Constants.ILLEGAL_CHARACTERS;
 
-public class UserInputService {
+class UserInputService {
 
     private static Scanner scanner = new Scanner(System.in);
 
@@ -25,6 +25,7 @@ public class UserInputService {
                 }
             } catch (IllegalStateException | NoSuchElementException ex) {
                 System.out.println("You enter incorrect data! Please try again!");
+                scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
             stop = true;
@@ -40,7 +41,7 @@ public class UserInputService {
                 userInput = Integer.parseInt(scanner.nextLine().trim());
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException ex) {
                 System.out.println("You enter incorrect data! Please try again!");
-                scanner.nextLine();
+                scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
             boolean good = true;
@@ -53,7 +54,7 @@ public class UserInputService {
             if (!good) {
                 stop = true;
             } else {
-                System.out.println("You enter incorrect data! Please try again!!!!!!!!");
+                System.out.println("You enter incorrect data! Please try again!");
             }
         }
         return userInput;
@@ -67,6 +68,7 @@ public class UserInputService {
                 userInput = Integer.parseInt(scanner.nextLine().trim());
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException ex) {
                 System.out.println("You enter incorrect data! Please try again!");
+                scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
             stop = true;
