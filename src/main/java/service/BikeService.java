@@ -73,7 +73,7 @@ public class BikeService {
                     .map(Path::toFile)
                     .forEach(resourceTxtFiles::add);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("The .txt files not found, because due to some error! The catalog is empty!");
         }
         return resourceTxtFiles;
     }
@@ -181,7 +181,7 @@ public class BikeService {
         boolean isContains = bikesFromFile.contains(newBike);
 
         if (isContains) {
-            System.out.println("The new bike, shown below, has not been added, because it is already present in the catalog!");
+            System.out.println("The new bike, shown below, not added, because it is already present in the catalog!");
         } else {
             System.out.println("The new bike will be added to the catalog as soon as it will be possible!");
             new Thread(() -> bikesFromFile.add(newBike)).start();
@@ -233,11 +233,13 @@ public class BikeService {
         } else {
             //Just to show in message bike type names like: E-BIKE, SPEEDELEC BIKE, FOLDING BIKE
             String bikeTypeName = BikeType.valueOf(bikeClass.getSimpleName()).getBikeType();
-            unsuccessfulSearchResult = String.format("%s of %s brand is not found!", bikeTypeName, brand);
+            unsuccessfulSearchResult = String.format("%s of %s brand not found!", bikeTypeName, brand);
         }
     }
 
     private void wrightToFile() {
+
+        boolean success = true;
 
         String newFileName = getFileNameUserInput();
 
@@ -254,8 +256,10 @@ public class BikeService {
                 writer.write(bike.toTextFileString() + System.lineSeparator());
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            success = false;
+            System.out.println(String.format("All data NOT written to the file: %s.txt, " +
+                    "due to some error!", newFileName));
         }
-        System.out.println(String.format("All data has been written to the file: %s.txt", newFileName));
+        if (success) System.out.println(String.format("All data written to the file: %s.txt", newFileName));
     }
 }

@@ -19,12 +19,12 @@ class UserInputService {
                 if (isFileName) {
                     boolean isValidName = Arrays.stream(ILLEGAL_CHARACTERS).noneMatch(userInput::contains);
                     if (!isValidName) {
-                        System.out.println("You enter incorrect data! Please try again!");
+                        System.out.println("You entered incorrect data! Please try again!");
                         continue;
                     }
                 }
             } catch (IllegalStateException | NoSuchElementException ex) {
-                System.out.println("You enter incorrect data! Please try again!");
+                System.out.println("You entered incorrect data! Please try again!");
                 scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
@@ -40,7 +40,7 @@ class UserInputService {
             try {
                 userInput = Integer.parseInt(scanner.nextLine().trim());
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException ex) {
-                System.out.println("You enter incorrect data! Please try again!");
+                System.out.println("You entered incorrect data! Please try again!");
                 scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
@@ -54,7 +54,7 @@ class UserInputService {
             if (!good) {
                 stop = true;
             } else {
-                System.out.println("You enter incorrect data! Please try again!");
+                System.out.println("You entered incorrect data! Please try again!");
             }
         }
         return userInput;
@@ -67,7 +67,7 @@ class UserInputService {
             try {
                 userInput = Integer.parseInt(scanner.nextLine().trim());
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException ex) {
-                System.out.println("You enter incorrect data! Please try again!");
+                System.out.println("You entered incorrect data! Please try again!");
                 scanner.nextLine(); // Added because the scanner is sometimes buggy
                 continue;
             }
