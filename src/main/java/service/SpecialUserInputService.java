@@ -6,71 +6,71 @@ import model.electricBikes.SpeedelecBike;
 import model.regularBikes.FoldingBike;
 
 import static service.Constants.CHOOSE_BIKE_TYPE_MESSAGE;
-import static service.UserInputService.getIntUserInput;
-import static service.UserInputService.getStringUserInput;
 
 class SpecialUserInputService {
 
-    static String getBrandUserInput() {
+    private UserInputService userInputService = new UserInputService();
+
+    String getBrandUserInput() {
         System.out.println("Please enter the bike brand:");
-        return getStringUserInput(false);
+        return userInputService.getStringUserInput(false);
     }
 
-    static int getWheelSizeUserInput() {
+    int getWheelSizeUserInput() {
         System.out.println("Please enter the size of the wheels (in inch):");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static int getGearNumberUserInput() {
+    int getGearNumberUserInput() {
         System.out.println("Please enter the number of gears:");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static int getWeightUserInput() {
+    int getWeightUserInput() {
         System.out.println("Please enter the weight of the bike (in grams):");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static boolean getLightsAvaliabilityUserInput() {
+    boolean getLightsAvaliabilityUserInput() {
         System.out.println("Please enter the availability of lights at front and back:\n" +
                 "enter 1 if lights will be available\n" +
                 "enter 2 if not");
-        int intUserInput = getIntUserInput(1, 2);
+        int intUserInput = userInputService.getIntUserInput(1, 2);
         return intUserInput == 1;
     }
 
-    static String getColorUserInput() {
+    String getColorUserInput() {
         System.out.println("Please enter the color:");
-        return getStringUserInput(false);
+        return userInputService.getStringUserInput(false);
     }
 
-    static int getPriceUserInput() {
+    int getPriceUserInput() {
         System.out.println("Please enter the price (in euros):");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static int getMaxSpeedUserInput() {
+    int getMaxSpeedUserInput() {
         System.out.println("Please enter the maximum speed (in km/h):");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static int getBatteryCapacityUserInput() {
+    int getBatteryCapacityUserInput() {
         System.out.println("Please enter the battery capacity (in mAh):");
-        return getIntUserInput();
+        return userInputService.getIntUserInput();
     }
 
-    static String getFileNameUserInput() {
+    String getFileNameUserInput() {
         System.out.println("Please, enter the file name, in which all data will be written\n" +
                 "(don't use this characters: " +
                 "'/', '\\n', '\\r', '\\t', '\\0', '\\f', '`', '?', '*', '\\\\', '<', '>', '|', '\\\"', ':')");
-        return getStringUserInput(true);
+        return userInputService.getStringUserInput(true);
     }
 
-    static Class<? extends Bike> getBikeTypeUserInput() {
+    Class<? extends Bike> getBikeTypeUserInput() {
 
         System.out.println(CHOOSE_BIKE_TYPE_MESSAGE);
 
-        int intUserInput = getIntUserInput(1, 2, 3);
+        int intUserInput = userInputService.getIntUserInput(1, 2, 3);
 
         Class<? extends Bike> chosenBikeClass;
 

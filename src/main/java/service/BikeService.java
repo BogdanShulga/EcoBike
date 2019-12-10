@@ -17,13 +17,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static service.SpecialUserInputService.*;
 import static service.Constants.*;
-import static service.UserInputService.getIntUserInput;
 
 @Getter
 @Setter
 public class BikeService {
+
+    private UserInputService userInputService = new UserInputService();
+
+    private SpecialUserInputService specialUserInputService = new SpecialUserInputService();
 
     private List<Bike> foundBikes = new ArrayList<>();
 
@@ -42,7 +44,7 @@ public class BikeService {
 
         System.out.println(ROOT_MESSAGE);
 
-        int intUserInput = getIntUserInput(1, 2, 3, 4, 5, 6, 7);
+        int intUserInput = userInputService.getIntUserInput(1, 2, 3, 4, 5, 6, 7);
 
         if (intUserInput == 1) {
             showAllCatalog();
@@ -138,13 +140,13 @@ public class BikeService {
     private void addNewFoldingBikeToCatalog() {
 
         FoldingBike newFoldingBike = new FoldingBike(
-                getBrandUserInput(),
-                getWeightUserInput(),
-                getLightsAvaliabilityUserInput(),
-                getColorUserInput(),
-                getPriceUserInput(),
-                getWheelSizeUserInput(),
-                getGearNumberUserInput());
+                specialUserInputService.getBrandUserInput(),
+                specialUserInputService.getWeightUserInput(),
+                specialUserInputService.getLightsAvaliabilityUserInput(),
+                specialUserInputService.getColorUserInput(),
+                specialUserInputService.getPriceUserInput(),
+                specialUserInputService.getWheelSizeUserInput(),
+                specialUserInputService.getGearNumberUserInput());
 
         saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newFoldingBike);
     }
@@ -152,13 +154,13 @@ public class BikeService {
     private void addNewSpeedelecBikeToCatalog() {
 
         SpeedelecBike newSpeedelecBike = new SpeedelecBike(
-                getBrandUserInput(),
-                getWeightUserInput(),
-                getLightsAvaliabilityUserInput(),
-                getColorUserInput(),
-                getPriceUserInput(),
-                getMaxSpeedUserInput(),
-                getBatteryCapacityUserInput());
+                specialUserInputService.getBrandUserInput(),
+                specialUserInputService.getWeightUserInput(),
+                specialUserInputService.getLightsAvaliabilityUserInput(),
+                specialUserInputService.getColorUserInput(),
+                specialUserInputService.getPriceUserInput(),
+                specialUserInputService.getMaxSpeedUserInput(),
+                specialUserInputService.getBatteryCapacityUserInput());
 
         saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newSpeedelecBike);
     }
@@ -166,13 +168,13 @@ public class BikeService {
     private void addNewEBikeToCatalog() {
 
         EBike newEBike = new EBike(
-                getBrandUserInput(),
-                getWeightUserInput(),
-                getLightsAvaliabilityUserInput(),
-                getColorUserInput(),
-                getPriceUserInput(),
-                getMaxSpeedUserInput(),
-                getBatteryCapacityUserInput());
+                specialUserInputService.getBrandUserInput(),
+                specialUserInputService.getWeightUserInput(),
+                specialUserInputService.getLightsAvaliabilityUserInput(),
+                specialUserInputService.getColorUserInput(),
+                specialUserInputService.getPriceUserInput(),
+                specialUserInputService.getMaxSpeedUserInput(),
+                specialUserInputService.getBatteryCapacityUserInput());
 
         saveOrNotBikeAndPrintMessageWhenBikeAlreadyContainsOrNot(newEBike);
     }
@@ -193,13 +195,13 @@ public class BikeService {
 
         System.out.println(FIND_FIRST_BIKE_BY_BRAND_MESSAGE);
 
-        int intUserInput1 = getIntUserInput(1, 2);
+        int intUserInput1 = userInputService.getIntUserInput(1, 2);
 
         if (intUserInput1 == 1) {
             printInfoAboutFoundBikes();
         } else {
-            Class<? extends Bike> bikeTypeUserInput = getBikeTypeUserInput();
-            String brandUserInput = getBrandUserInput();
+            Class<? extends Bike> bikeTypeUserInput = specialUserInputService.getBikeTypeUserInput();
+            String brandUserInput = specialUserInputService.getBrandUserInput();
             new Thread(() -> findFirstBikeByBrand(
                     brandUserInput,
                     bikeTypeUserInput,
@@ -252,7 +254,7 @@ public class BikeService {
 
         boolean success = true;
 
-        String newFileName = getFileNameUserInput();
+        String newFileName = specialUserInputService.getFileNameUserInput();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(String.format(FILE_PATH, newFileName)))) {
             for (Bike bike : bikesFromFile) {
