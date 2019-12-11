@@ -49,4 +49,10 @@ public class RegularBike extends Bike {
         return getWheelSize() == that.getWheelSize() &&
                 getGearNumber() == that.getGearNumber();
     }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getWheelSize(), getGearNumber());
+    }
 }

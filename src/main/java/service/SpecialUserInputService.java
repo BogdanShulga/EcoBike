@@ -5,6 +5,8 @@ import model.electricBikes.EBike;
 import model.electricBikes.SpeedelecBike;
 import model.regularBikes.FoldingBike;
 
+import java.util.Objects;
+
 import static service.Constants.CHOOSE_BIKE_TYPE_MESSAGE;
 
 class SpecialUserInputService {
@@ -82,5 +84,19 @@ class SpecialUserInputService {
             chosenBikeClass = EBike.class;
         }
         return chosenBikeClass;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SpecialUserInputService that = (SpecialUserInputService) o;
+        return Objects.equals(userInputService, that.userInputService);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(userInputService);
     }
 }

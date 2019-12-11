@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -266,5 +267,23 @@ public class BikeService {
                     "due to some error!", newFileName));
         }
         if (success) System.out.println(String.format("All data written to the file: %s.txt", newFileName));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BikeService that = (BikeService) o;
+        return Objects.equals(getUserInputService(), that.getUserInputService()) &&
+                Objects.equals(getSpecialUserInputService(), that.getSpecialUserInputService()) &&
+                Objects.equals(getFoundBikes(), that.getFoundBikes()) &&
+                Objects.equals(getUnsuccessfulSearchResult(), that.getUnsuccessfulSearchResult()) &&
+                Objects.equals(getBikesFromFile(), that.getBikesFromFile());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getUserInputService(), getSpecialUserInputService(), getFoundBikes(), getUnsuccessfulSearchResult(), getBikesFromFile());
     }
 }

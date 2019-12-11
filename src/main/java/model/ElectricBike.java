@@ -50,4 +50,10 @@ public class ElectricBike extends Bike {
         return getMaxSpeed() == that.getMaxSpeed() &&
                 getBatteryCapacity() == that.getBatteryCapacity();
     }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getMaxSpeed(), getBatteryCapacity());
+    }
 }

@@ -23,6 +23,15 @@ public class Bike {
 
     private int price;
 
+    public String toTextFileString() {
+        return "BIKE "
+                + getBrand() + "; "
+                + getWeight() + "; "
+                + (isLights() ? "TRUE" : "FALSE") + "; "
+                + getColor() + "; "
+                + getPrice();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,12 +44,9 @@ public class Bike {
                 Objects.equals(getColor(), bike.getColor());
     }
 
-    public String toTextFileString() {
-        return "BIKE "
-                + getBrand() + "; "
-                + getWeight() + "; "
-                + (isLights() ? "TRUE" : "FALSE") + "; "
-                + getColor() + "; "
-                + getPrice();
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getBrand(), getWeight(), isLights(), getColor(), getPrice());
     }
 }

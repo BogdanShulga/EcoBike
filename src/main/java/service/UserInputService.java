@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static service.Constants.ILLEGAL_CHARACTERS;
@@ -86,4 +87,17 @@ class UserInputService {
         return userInput;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInputService that = (UserInputService) o;
+        return Objects.equals(scanner, that.scanner);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(scanner);
+    }
 }
