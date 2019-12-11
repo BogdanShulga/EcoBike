@@ -29,7 +29,6 @@ class UserInputService {
                 } else {
                     System.out.println("You entered incorrect data! Please try again!");
                 }
-                scanner.nextLine(); // Added because the scanner is sometimes buggy
             }
         }
         return userInput;
@@ -55,7 +54,6 @@ class UserInputService {
                 }
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException | UserIntInputNotInRangeException ex) {
                 System.out.println("You entered incorrect data! Please try again!");
-                scanner.nextLine(); // Added because the scanner is sometimes buggy
             }
         }
         return userInput;
@@ -83,7 +81,6 @@ class UserInputService {
                 stop = true;
             } catch (IllegalStateException | NoSuchElementException | NumberFormatException ex) {
                 System.out.println("You entered incorrect data! Please try again!");
-                scanner.nextLine(); // Added because the scanner is sometimes buggy
             }
         }
         return userInput;

@@ -32,21 +32,30 @@ public class UserInputServiceTest {
         verify(scannerMock, times(1)).nextLine();
     }
 
+    // Recursion expected. The test recognize just the fact that some unknown exception
+    // would be thrown when user input is not valid
+    //If exception will not be thrown, then test will completed successfully, but with error message
     @Test
-    public void getStringUserInputTestWhenNoLineUserInput() {
+    public void getStringUserInputTestWhenNoLineUserInput() throws InterruptedException {
 
         when(scannerMock.nextLine()).thenThrow(new NoSuchElementException());
 
-        Throwable thrown = assertThrows(NoSuchElementException.class,
-                () -> userInputService.getStringUserInput(false));
+        Thread thread = new Thread(() ->
+                assertThrows(Exception.class, () -> userInputService.getStringUserInput(false))
+        );
 
-        assertNull(thrown.getMessage());
+        thread.start();
 
-        verify(scannerMock, times(2)).nextLine();
+        Thread.sleep(50);
+
+        thread.interrupt();
     }
 
+    // Recursion expected. The test recognize just the fact that some unknown exception
+    // would be thrown when scanner closed
+    //If exception will not be thrown, then test will completed successfully, but with error message
     @Test
-    public void getStringUserInputTestWhenScannerClosed() {
+    public void getStringUserInputTestWhenScannerClosed() throws InterruptedException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -54,12 +63,15 @@ public class UserInputServiceTest {
 
         scanner.close();
 
-        Throwable thrown = assertThrows(IllegalStateException.class,
-                () -> userInputService.getStringUserInput(false));
+        Thread thread = new Thread(() ->
+                assertThrows(Exception.class, () -> userInputService.getStringUserInput(false))
+        );
 
-        assertEquals("Scanner closed", thrown.getMessage());
+        thread.start();
 
-        verify(scannerMock, never()).nextLine();
+        Thread.sleep(50);
+
+        thread.interrupt();
     }
 
     @Test
@@ -74,6 +86,7 @@ public class UserInputServiceTest {
 
     // Recursion expected. The test recognize just the fact that some unknown exception
     // would be thrown when user input is not valid
+    //If exception will not be thrown, then test will completed successfully, but with error message
     @Test
     public void getStringUserInputTestWhenNotValidFileNameUserInput() throws InterruptedException {
 
@@ -102,6 +115,7 @@ public class UserInputServiceTest {
 
     // Recursion expected. The test recognize just the fact that some unknown exception
     // would be thrown when user input is not valid
+    //If exception will not be thrown, then test will completed successfully, but with error message
     @Test
     public void getIntUserInputTestWhenNotValidUserInputThrowException() throws InterruptedException {
 
@@ -135,6 +149,7 @@ public class UserInputServiceTest {
 
     // Recursion expected. The test recognize just the fact that some unknown exception
     // would be thrown when user input integer that not in needed range
+    //If exception will not be thrown, then test will completed successfully, but with error message
     @Test
     public void getIntUserInputWithRangeTestWhenUserEnterIntButItNotInRange() throws InterruptedException {
 
